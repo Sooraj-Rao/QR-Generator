@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Generator</title>
+    <link rel="icon" href="https://p1.rs/UBaWo">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        
+        .Head {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(62, 62, 62);
+        }
+
+        .main {
+            min-height: 30vh;
+            min-width: 25vw;
+            background-color: white;
+            border-radius: 7px;
+            padding-left: 2rem;
+        }
+
+        h4 {
+           text-align: center; 
+           margin:  10px 0;
+           padding: 0 10px;
+            color: rgb(63, 63, 63);
+        }
+
+        input {
+            padding-left: 10px;
+            border: 1px solid grey;
+            outline: none;
+            height: 6vh;
+            width: 90%;
+            margin: 20px 0;
+            border-radius: 7px;
+        }
+
+        button {
+            border: none;
+            outline: none;
+            border-radius: 7px;
+            height: 6vh;
+            width: 90%;
+            margin: 20px 0;
+            background-color: rgba(37, 37, 239, 0.915);
+            color: white;
+            font-size: 2.3vh;
+            cursor: pointer;
+        }
+
+        button:active {
+            background-color: rgb(49, 49, 187);
+        }
+
+        .show {
+            min-height: 0;
+            max-height: 20vh;
+            width: 25vw;
+            display: flex;
+            margin-bottom: 3%;
+        }
+
+        p {
+            color: red;
+            width: 20vw;
+            margin: auto;
+            text-align: center;
+        }
+
+        .err {
+            border: 2px solid red;
+            animation: shake .1s linear 6;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translate(0);
+            }
+
+            25% {
+                transform: translate(-2px);
+            }
+
+            50% {
+                transform: translate(0);
+            }
+
+            75% {
+                transform: translate(2px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        @media screen and (min-width: 800px) {
+        .show{
+            justify-content: center;
+        }    
+}
+    </style>
+</head>
+
+<body>
+    <div class=" Head">
+        <div class="main">
+            <h4>Enter your text or URL</h4>
+            <input type="text" name="" id="" placeholder="Text or URL" autofocus><br>
+            <div class="show">
+                <img src="" alt="">
+            </div>
+            <button onclick="qrcode()">
+                <span class="buttonInner">Generate</span>
+            </button>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    let load = document.querySelector('.buttonInner');
+    let qrtext = document.getElementsByTagName('input')[0];
+    let button = document.getElementsByTagName('button')[0];
+    let url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=";
+    let img = document.getElementsByTagName('img')[0];
+    let pp = document.createElement('p');
+    qrtext.after(pp);
+
+    var qrcode = () => {
+
+        let val = qrtext.value;
+        let len = val.length;
+
+        if (len > 0) {
+            load.innerHTML = 'loading...'
+            fetch(url + val)
+
+                .then(response => {
+                    img.src = url + val;
+                    load.innerHTML = 'Generate'
+                })
+                .catch(error => {
+                    load.innerHTML = 'Generate'
+                    pp.innerHTML = "Failed to generate.Check your internet connection.";
+                    img.src = "";
+                });
+        } else {
+            qrtext.classList.add("err");
+            pp.innerHTML = "";
+            setTimeout(() => {
+                qrtext.classList.remove("err");
+            }, 1000);
+        }
+
+    }
+</script>
+
+</html>
+
+
+</html>
